@@ -45,38 +45,38 @@ public:
 
 public:
     //基础
-    int m_port;
-    char *m_root;
-    int m_log_write;
-    int m_close_log;
-    int m_actormodel;
+    int m_port;//init
+    char *m_root;//WebServer
+    int m_log_write;//init
+    int m_close_log;//init
+    int m_actormodel;//init
 
-    int m_pipefd[2];
-    int m_epollfd;
-    http_conn *users;
+    int m_pipefd[2];//eventListen
+    int m_epollfd;//eventListen
+    http_conn *users;//WebServer
 
     //数据库相关
-    connection_pool *m_connPool;
-    string m_user;         //登陆数据库用户名
-    string m_passWord;     //登陆数据库密码
-    string m_databaseName; //使用数据库名
-    int m_sql_num;
+    connection_pool *m_connPool;//sql_pool
+    string m_user; // init       //登陆数据库用户名
+    string m_passWord;// init    //登陆数据库密码
+    string m_databaseName;// init   //使用数据库名
+    int m_sql_num;//init
 
     //线程池相关
-    threadpool<http_conn> *m_pool;
-    int m_thread_num;
+    threadpool<http_conn> *m_pool;//thread_pool
+    int m_thread_num;//init
 
     //epoll_event相关
-    epoll_event events[MAX_EVENT_NUMBER];
+    epoll_event events[MAX_EVENT_NUMBER];//eventLoop
 
-    int m_listenfd;
-    int m_OPT_LINGER;
-    int m_TRIGMode;
-    int m_LISTENTrigmode;
-    int m_CONNTrigmode;
+    int m_listenfd;//eventListen
+    int m_OPT_LINGER;//init
+    int m_TRIGMode;//init
+    int m_LISTENTrigmode;//trig_mode
+    int m_CONNTrigmode;//trig_mode
 
     //定时器相关
-    client_data *users_timer;
-    Utils utils;
+    client_data *users_timer;//WebServer
+    Utils utils;// timer/lst_timer.h
 };
 #endif
