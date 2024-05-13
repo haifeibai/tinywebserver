@@ -41,6 +41,23 @@ cmake ..
 make
 这将根据生成的 Makefile 文件编译和链接项目
 
+4、如果源代码中有用到多线程和mysql数据库，要在CMakeLists.txt 文件中加上
+# 设置 C++ 标准
+set(CMAKE_CXX_STANDARD 11)
+set(CMAKE_CXX_STANDARD_REQUIRED ON)
+
+# 查找线程库
+find_package(Threads REQUIRED)
+
+# 查找 MySQL 库
+find_package(MySQL REQUIRED)
+
+# 包含 MySQL 头文件路径
+include_directories(${MYSQL_INCLUDE_DIR})
+
+#另外还要链接到多线程库和 MySQL 库
+target_link_libraries(my_executable PRIVATE Threads::Threads ${MYSQL_LIBRARIES})
+
 ********************************************************************************************************************
 
 要使用 Visual Studio Code (VSCode) 的调试器来调试程序，你需要按照以下步骤进行设置：
