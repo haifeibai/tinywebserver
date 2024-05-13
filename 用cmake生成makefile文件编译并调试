@@ -25,10 +25,11 @@ project(MyProject)
 set(CMAKE_BUILD_TYPE Debug)
 
 # 添加可执行文件并指定源文件
-add_executable(my_executable src/main.cpp src/other.cpp)
+add_executable(my_executable src/main.cpp src/other.cpp)//根目录下有源文件时，不用加前面的目录名与/
 
 # 包含头文件目录
-target_include_directories(my_executable PUBLIC include)
+target_include_directories(my_executable PUBLIC include)//include换成包含头文件的文件名，中间用空格隔开，如果根目录下也有头文件则加上${CMAKE_CURRENT_SOURCE_DIR}或${CMAKE_SOURCE_DIR}  # 添加项目根目录
+target_include_directories(test PUBLIC a b ${CMAKE_CURRENT_SOURCE_DIR})
 
 2、进入项目根目录，在命令行中执行以下命令来生成 Makefile：
 mkdir build
@@ -39,6 +40,23 @@ cmake ..
 3、使用生成的 Makefile 来构建项目，只需在 build 目录下运行 make 命令：
 make
 这将根据生成的 Makefile 文件编译和链接项目
+
+4、如果源代码中有用到多线程和mysql数据库，要在CMakeLists.txt 文件中加上
+# 设置 C++ 标准
+set(CMAKE_CXX_STANDARD 11)
+set(CMAKE_CXX_STANDARD_REQUIRED ON)
+
+# 查找线程库
+find_package(Threads REQUIRED)
+
+# 查找 MySQL 库
+find_package(MySQL REQUIRED)
+
+# 包含 MySQL 头文件路径
+include_directories(${MYSQL_INCLUDE_DIR})
+
+#另外还要链接到多线程库和 MySQL 库
+target_link_libraries(my_executable PRIVATE Threads::Threads ${MYSQL_LIBRARIES})
 
 ********************************************************************************************************************
 
@@ -81,4 +99,6 @@ json
 确保 "program" 属性指向你的可执行文件的路径。在这个示例中，${workspaceFolder} 表示你的项目根目录。
 
 启动调试器： 点击竖栏的运行和调试按钮并选择"Debug"。VSCode 将使用你的配置启动调试器并运行你的程序。
+
+tasks.json文件里面的配置可以在加代码的时候不用编译，直接进行调试
 
