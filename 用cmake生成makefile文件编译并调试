@@ -25,10 +25,11 @@ project(MyProject)
 set(CMAKE_BUILD_TYPE Debug)
 
 # 添加可执行文件并指定源文件
-add_executable(my_executable src/main.cpp src/other.cpp)
+add_executable(my_executable src/main.cpp src/other.cpp)//根目录下有源文件时，不用加前面的目录名与/
 
 # 包含头文件目录
-target_include_directories(my_executable PUBLIC include)
+target_include_directories(my_executable PUBLIC include)//include换成包含头文件的文件名，中间用空格隔开，如果根目录下也有头文件则加上${CMAKE_CURRENT_SOURCE_DIR}或${CMAKE_SOURCE_DIR}  # 添加项目根目录
+target_include_directories(test PUBLIC a b ${CMAKE_CURRENT_SOURCE_DIR})
 
 2、进入项目根目录，在命令行中执行以下命令来生成 Makefile：
 mkdir build
