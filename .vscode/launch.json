@@ -19,7 +19,7 @@
                     "ignoreFailures": true
                 }
             ],
-            "preLaunchTask": "Build", // 依赖的构建任务
+            //"preLaunchTask": "Build", // 依赖的构建任务
             "miDebuggerPath": "/usr/bin/gdb" // gdb 可执行文件路径
         }
     ]
