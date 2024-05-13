@@ -1,0 +1,84 @@
+使用 CMake 生成 Makefile 文件通常需要以下步骤：
+
+创建一个 CMakeLists.txt 文件，其中包含项目的配置和构建指令。
+运行 CMake 工具来生成 Makefile。
+使用生成的 Makefile 来构建项目。
+下面是一个简单的示例：
+
+假设你有以下项目结构：
+
+project
+│
+├── CMakeLists.txt
+├── src
+│   ├── main.cpp
+│   └── other.cpp
+└── include
+    ├── header1.h
+    └── header2.h
+1、在 project 目录下创建一个 CMakeLists.txt 文件，内容如下：
+
+cmake_minimum_required(VERSION 3.10)
+project(MyProject)
+
+# 设置构建类型为 Debug  通过设置 CMake 的 CMAKE_BUILD_TYPE 变量为 Debug 来告诉 CMake 生成带有调试信息的 Makefile。
+set(CMAKE_BUILD_TYPE Debug)
+
+# 添加可执行文件并指定源文件
+add_executable(my_executable src/main.cpp src/other.cpp)
+
+# 包含头文件目录
+target_include_directories(my_executable PUBLIC include)
+
+2、进入项目根目录，在命令行中执行以下命令来生成 Makefile：
+mkdir build
+cd build
+cmake ..
+这将在 build 目录下生成 Makefile 文件。
+
+3、使用生成的 Makefile 来构建项目，只需在 build 目录下运行 make 命令：
+make
+这将根据生成的 Makefile 文件编译和链接项目
+
+********************************************************************************************************************
+
+要使用 Visual Studio Code (VSCode) 的调试器来调试程序，你需要按照以下步骤进行设置：
+
+安装插件： 确保你已经安装了 C/C++ 插件以及 CMake 插件。这些插件可以帮助 VSCode 理解 C++ 代码和 CMake 构建系统。
+
+创建调试配置文件： 在 VSCode 中打开你的项目文件夹。然后，点击左侧的调试按钮 (Debug) ，选择 "创建 launch.json 文件"。
+
+选择调试器类型： 在弹出的列表中选择 C++ (GDB/LLDB)。这将生成一个 launch.json 文件并打开一个编辑器。
+
+配置调试器参数： 在 launch.json 文件中，你需要配置调试器的参数以及要调试的可执行文件。以下是一个示例配置：
+
+json
+{
+    "version": "0.2",
+    "configurations": [
+        {
+            "name": "Debug",//调试器的名字
+            "type": "cppdbg",
+            "request": "launch",
+            "program": "${workspaceFolder}/build/my_executable",//把my_executable换成build目录下生成的可执行文件
+            "args": [],
+            "stopAtEntry": false,
+            "cwd": "${workspaceFolder}",
+            "environment": [],
+            "externalConsole": false,
+            "MIMode": "gdb",
+            "setupCommands": [
+                {
+                    "description": "Enable pretty-printing for gdb",
+                    "text": "-enable-pretty-printing",
+                    "ignoreFailures": true
+                }
+            ],
+            "preLaunchTask": "build"
+        }
+    ]
+}
+确保 "program" 属性指向你的可执行文件的路径。在这个示例中，${workspaceFolder} 表示你的项目根目录。
+
+启动调试器： 点击调试按钮 (Debug) 并选择"Debug"。VSCode 将使用你的配置启动调试器并运行你的程序。
+
